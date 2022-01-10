@@ -6,17 +6,21 @@
   environment = { NODE_VERSION="v14.17.4" }
 
 [context.production.environment]
+  BASE_URL = "/"
   API_URL = "https://api.emeris.com/v1"
   CNS_URL = "https://api.emeris.com/v1/cns"
 
 [context.develop.environment]
+  BASE_URL = "/"
   API_URL = "https://dev.demeris.io/v1"
   CNS_URL = "https://dev.demeris.io/v1/cns"
 
 [context.staging.environment]
+  BASE_URL = "/"
   API_URL = "https://staging.demeris.io/v1"
   CNS_URL = "https://staging.demeris.io/v1/cns"
 
 [context.deploy-preview.environment]
+  BASE_URL = "/"
   API_URL = "https://dev.demeris.io/v1"
   CNS_URL = "https://dev.demeris.io/v1/cns"
