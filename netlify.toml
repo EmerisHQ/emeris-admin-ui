@@ -1,0 +1,20 @@
+[build]
+  base = "/"
+  publish = "dist/"
+  command = "yarn build"
+
+[context.production.environment]
+  API_URL = "https://api.emeris.com/v1"
+  CNS_URL = "https://api.emeris.com/v1/cns"
+
+[context.develop.environment]
+  API_URL = "https://dev.demeris.io/v1"
+  CNS_URL = "https://dev.demeris.io/v1/cns"
+
+[context.staging.environment]
+  API_URL = "https://staging.demeris.io/v1"
+  CNS_URL = "https://staging.demeris.io/v1/cns"
+
+[context.deploy-preview.environment]
+  API_URL = "https://dev.demeris.io/v1"
+  CNS_URL = "https://dev.demeris.io/v1/cns"
