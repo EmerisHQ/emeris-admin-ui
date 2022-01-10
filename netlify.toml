@@ -3,6 +3,8 @@
   publish = "dist/"
   command = "yarn build"
 
+  environment = { NODE_VERSION="v14.17.4" }
+
 [context.production.environment]
   API_URL = "https://api.emeris.com/v1"
   CNS_URL = "https://api.emeris.com/v1/cns"
