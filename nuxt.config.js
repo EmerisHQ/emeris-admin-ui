@@ -2,6 +2,12 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  env: {
+    API_URL: process.env.API_URL,
+    CNS_URL: process.env.CNS_URL,
+    BASE_URL: process.env.BASE_URL
+  },
+
   generate: {
     exclude: [
       /^\/chain/ // path starts with /chain
