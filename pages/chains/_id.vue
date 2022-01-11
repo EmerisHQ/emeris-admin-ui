@@ -372,7 +372,6 @@ export default {
           headers: {
             Authorization: `JWT ${authToken}`,
           },
-          withCredentials: true,
         });
         this.chain = res.data.chain;
         let supply = await api.get(

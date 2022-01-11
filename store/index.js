@@ -62,7 +62,6 @@ export const mutations = {
       headers: {
         Authorization: `JWT ${authToken}`
       },
-      withCredentials: true,
     }).then(res => { 
       state.chains = res.data.chains; 
       console.log("fetched chains"); 
