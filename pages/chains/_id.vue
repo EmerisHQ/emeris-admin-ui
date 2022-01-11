@@ -366,7 +366,14 @@ export default {
     },
     async loadData() {
       try {
-        let res = await axios.get("/chain/" + this.$route.params.id);
+        let authToken = await this.$fire.auth.currentUser.getIdToken(true);
+
+        let res = await axios.get("/chain/" + this.$route.params.id, {
+          headers: {
+            Authorization: `JWT ${authToken}`,
+          },
+          withCredentials: true,
+        });
         this.chain = res.data.chain;
         let supply = await api.get(
           "/chain/" + this.$route.params.id + "/supply"
