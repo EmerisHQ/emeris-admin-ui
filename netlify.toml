@@ -1,7 +1,7 @@
 [build]
   base = "/"
   publish = "dist/"
-  command = "yarn generate"
+  command = "node ./scripts/create-env.js && yarn generate"
 
   environment = { NODE_VERSION="v14.17.4" }
 
