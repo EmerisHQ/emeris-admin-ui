@@ -61,34 +61,34 @@ export default {
     ['nuxt-buefy', { materialDesignIcons: false }],
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
-    [
-      '@nuxtjs/firebase',
-      {
-        config: {
-          apiKey: "AIzaSyA09i5TB-Jb0-llyRaHPjytr9iFNY8V1TI",
-          authDomain: "emeris-admin-ui.firebaseapp.com",
-          projectId: "emeris-admin-ui",
-          storageBucket: "emeris-admin-ui.appspot.com",
-          messagingSenderId: "456830583626",
-          appId: "1:456830583626:web:cc57b5b475143771f177b3"
-        
-        },
-        services: {
-          auth: {
-            persistence: 'local',
-            initialize: {
-              onAuthStateChangedAction: 'onAuthStateChangedAction',
-              subscribeManually: false
-            },
-            ssr: false,
-          }
-        }
-      }
-    ],
+    '@nuxtjs/auth-next',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  auth: {
+    strategies: {
+      google: {
+        clientId: '456830583626-ovlsdesepg4t2g1ufk2nse0b1tbm31pc.apps.googleusercontent.com',
+        codeChallengeMethod: '',
+        responseType: 'code',
+        endpoints: {
+          // token: process.env.CNS_URL + '/auth/login',
+          // userInfo: process.env.CNS_URL + '/auth/user'
+          token: process.env.CNS_URL? process.env.CNS_URL + '/auth/login': 'http://localhost:8001/auth/login',
+          userInfo: process.env.CNS_URL? process.env.CNS_URL + '/auth/user': 'http://localhost:8001/auth/user'
+        },
+        redirect: {
+          login: '/login',
+          logout: '/login',
+          home: '/',
+        },
+        watchLoggedIn: true,
+
+      },
+    }
   },
 
   axios: {
