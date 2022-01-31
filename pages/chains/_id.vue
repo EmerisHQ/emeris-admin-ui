@@ -366,13 +366,7 @@ export default {
     },
     async loadData() {
       try {
-        let authToken = await this.$fire.auth.currentUser.getIdToken(true);
-
-        let res = await axios.get("/chain/" + this.$route.params.id, {
-          headers: {
-            Authorization: `JWT ${authToken}`,
-          },
-        });
+        let res = await axios.get("/chain/" + this.$route.params.id);
         this.chain = res.data.chain;
         let supply = await api.get(
           "/chain/" + this.$route.params.id + "/supply"
@@ -395,12 +389,9 @@ export default {
           : 0.042;
       });
 
-      let authToken = await this.$fire.auth.currentUser.getIdToken(true);
-      console.log(authToken);
       let res = await axios.post("/add", this.chain, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `JWT ${authToken}`,
         },
       });
       if (res.status != 200) {

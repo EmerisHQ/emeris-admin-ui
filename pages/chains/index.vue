@@ -68,14 +68,10 @@ export default {
 
       let json = JSON.parse(jsontxt);
 
-      let authToken = await this.$fire.auth.currentUser.getIdToken(true);
-      console.log(authToken);
-
       axios
         .post("/add", json, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `JWT ${authToken}`,
           },
         })
         .then((res) => {
