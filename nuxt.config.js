@@ -75,10 +75,8 @@ export default {
         codeChallengeMethod: '',
         responseType: 'code',
         endpoints: {
-          // token: process.env.CNS_URL + '/auth/login',
-          // userInfo: process.env.CNS_URL + '/auth/user'
-          token: process.env.CNS_URL? process.env.CNS_URL + '/auth/login': 'http://localhost:8001/auth/login',
-          userInfo: process.env.CNS_URL? process.env.CNS_URL + '/auth/user': 'http://localhost:8001/auth/user'
+          token: process.env.CNS_URL? process.env.CNS_URL + '/auth/login': 'http://127.0.0.1:8000/v1/cns/auth/login',
+          userInfo: process.env.CNS_URL? process.env.CNS_URL + '/auth/user': 'http://127.0.0.1:8000/v1/cns/auth/user'
         },
         redirect: {
           login: '/login',
