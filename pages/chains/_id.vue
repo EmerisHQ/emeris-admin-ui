@@ -385,6 +385,12 @@ export default {
           "/chain/" + this.$route.params.id + "/supply"
         );
         this.supply = supply.data.supply;
+        while (supply.data.pagination.next_key) {
+          let supply = await api.get(
+            "/chain/" + this.$route.params.id + `/supply?pagination.key=${supply.data.pagination.next_key}`
+          );
+          this.supply.concat(supply.data.supply);
+        }
       } catch (e) {
         console.log(e);
       }
