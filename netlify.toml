@@ -3,7 +3,7 @@
   publish = "dist/"
   command = "node ./scripts/create-env.js && yarn generate"
 
-  environment = { NODE_VERSION="v14.17.4" }
+  environment = { NODE_VERSION="v14.18.3" }
 
 [context.production.environment]
   BASE_URL = "/"
