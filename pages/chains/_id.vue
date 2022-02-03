@@ -280,6 +280,13 @@
         v-on:click="update()"
         >Save</b-button
       >
+      <b-button
+        type="is-danger"
+        :loading="isLoading"
+        native-type="submit"
+        v-on:click="deleteChain()"
+        >DELET</b-button
+      >
     </section>
   </div>
 </template>
@@ -396,7 +403,6 @@ export default {
       });
 
       let authToken = await this.$fire.auth.currentUser.getIdToken(true);
-      console.log(authToken);
       let res = await axios.post("/add", this.chain, {
         headers: {
           "Content-Type": "application/json",
@@ -408,6 +414,23 @@ export default {
       } else {
         this.$nuxt.refresh();
       }
+    },
+    async deleteChain() {
+      let authToken = await this.$fire.auth.currentUser.getIdToken(true);
+      axios.delete("/delete", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${authToken}`,
+        },
+        data: {
+          chain: this.chain.chain_name
+        },
+      }).then(
+        (res) => {
+          setTimeout(() => {this.$router.push(`/chains`)}, 1000);
+          this.$router.push("/");
+        }
+      ).catch(console.log) 
     },
     setAddingToCNS(denom) {
       this.newDenom.name = denom;
