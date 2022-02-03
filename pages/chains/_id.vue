@@ -246,7 +246,7 @@
                 {{ props.row.amount }}
               </b-table-column>
 
-              <b-table-column label="Add to CNS" field="cns_add" sortable searchable>
+              <b-table-column label="Add to CNS" field="cns_add" sortable>
                 <b-button
                   type="is-primary"
                   native-type="submit"
