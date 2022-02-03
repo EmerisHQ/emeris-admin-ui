@@ -125,11 +125,12 @@
                 label="Counterparty Chain Name"
                 field="name"
                 sortable
+                searchable
               >
                 {{ props.row.name }}
               </b-table-column>
 
-              <b-table-column label="Channel" field="channel" sortable>
+              <b-table-column label="Channel" field="channel" sortable searchable>
                 <b-input
                   v-model="chain.primary_channel[props.row.name]"
                   placeholder="channel id"
@@ -168,7 +169,7 @@
             :data="chain.denoms"
           >
             <template slot-scope="props">
-              <b-table-column label="base_denom" field="name" sortable>
+              <b-table-column label="base_denom" field="name" sortable searchable>
                 {{ props.row.name }}
               </b-table-column>
 
@@ -176,6 +177,7 @@
                 label="Display Name"
                 field="display_name"
                 sortable
+                searchable
               >
                 <b-input
                   v-model="props.row.display_name"
@@ -183,7 +185,7 @@
                   required
                 />
               </b-table-column>
-              <b-table-column label="Ticker" field="ticker" sortable>
+              <b-table-column label="Ticker" field="ticker" sortable searchable>
                 <b-input
                   v-model="props.row.ticker"
                   placeholder="Ticker"
@@ -236,15 +238,15 @@
             :data="supply"
           >
             <template slot-scope="props">
-              <b-table-column label="Denom" field="name" sortable>
+              <b-table-column label="Denom" field="name" sortable searchable>
                 {{ props.row.denom }}
               </b-table-column>
 
-              <b-table-column label="Amount" field="amount" sortable>
+              <b-table-column label="Amount" field="amount" sortable searchable>
                 {{ props.row.amount }}
               </b-table-column>
 
-              <b-table-column label="Add to CNS" field="cns_add" sortable>
+              <b-table-column label="Add to CNS" field="cns_add" sortable searchable>
                 <b-button
                   type="is-primary"
                   native-type="submit"
