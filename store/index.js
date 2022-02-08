@@ -11,21 +11,6 @@ export const state = () => ({
   chains: [],
 })
 
-export const actions = {
-  async onAuthStateChangedAction(state, {authUser, claims}) {
-    if (!authUser) {
-      state.commit('SET_USER', null)
-
-      this.$router.push({
-        path: '/auth/signin',
-      })
-    } else {
-      const {uid, email} = authUser
-      state.commit('SET_USER', {uid, email})
-    }
-  }
-}
-
 export const mutations = {
   basic(state, payload) {
     state[payload.key] = payload.value
@@ -56,13 +41,8 @@ export const mutations = {
   },
 
   async updateChains(state) {
-    let authToken = await this.$fire.auth.currentUser.getIdToken(true);
 
-    axios.get("/chains", {
-      headers: {
-        Authorization: `JWT ${authToken}`
-      },
-    }).then(res => { 
+    axios.get("/chains").then(res => { 
       state.chains = res.data.chains; 
       console.log("fetched chains"); 
     }).catch((e) => {

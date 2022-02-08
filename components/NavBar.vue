@@ -3,7 +3,7 @@
 
       <div class="navbar-end">
         <div class="navbar-item has-divider">
-          <span>Hi, {{ this.user.email? this.user.email : '' }} </span>
+          <span>Hi, {{ this.$auth.user.name }} </span>
         </div>
         <a
           class="navbar-item"
@@ -27,19 +27,10 @@ export default {
       isMenuNavBarActive: false,
     }
   },
-  computed: {
-    ...mapGetters({
-      user: 'getUser'
-    }),
-  },
   methods: {
-    logout() {
-      $nuxt.$fire.auth.signOut()
-      this.router.push('/')
-      // this.$buefy.snackbar.open({
-      //   message: 'Log out clicked',
-      //   queue: false,
-      // })
+    async logout() {
+      await this.$auth.logout()
+      this.$router.push('login')
     },
   },
 }
