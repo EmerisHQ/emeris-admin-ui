@@ -58,6 +58,9 @@ export default {
       return ["Admin", "Chains"];
     },
   },
+  async mounted() {
+    await this.$store.updateChains()
+  },
   methods: {
     async submit() {
       if (!this.file) {
@@ -74,11 +77,12 @@ export default {
             "Content-Type": "application/json",
           },
         })
-        .then((res) => {
+        .then(async (res) => {
           this.$buefy.toast.open({
             message: `Successfully uploaded file. Adding chain ${json.chain_name}`,
           });
-          this.$nuxt.refresh();
+
+          setTimeout(() => {this.$router.push(`/chains/${json.chain_name}`)}, 1000);
         })
         .catch((err) => {
           this.$buefy.toast.open({

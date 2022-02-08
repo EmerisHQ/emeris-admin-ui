@@ -58,6 +58,9 @@ export default {
       return ['Admin', 'Dashboard']
     },
   },
+  async mounted() {
+    await this.$store.updateChains()
+  },
   head() {
     return {
       title: 'Dashboard',

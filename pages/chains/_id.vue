@@ -125,11 +125,12 @@
                 label="Counterparty Chain Name"
                 field="name"
                 sortable
+                searchable
               >
                 {{ props.row.name }}
               </b-table-column>
 
-              <b-table-column label="Channel" field="channel" sortable>
+              <b-table-column label="Channel" field="channel" sortable searchable>
                 <b-input
                   v-model="chain.primary_channel[props.row.name]"
                   placeholder="channel id"
@@ -168,7 +169,7 @@
             :data="chain.denoms"
           >
             <template slot-scope="props">
-              <b-table-column label="base_denom" field="name" sortable>
+              <b-table-column label="base_denom" field="name" sortable searchable>
                 {{ props.row.name }}
               </b-table-column>
 
@@ -176,6 +177,7 @@
                 label="Display Name"
                 field="display_name"
                 sortable
+                searchable
               >
                 <b-input
                   v-model="props.row.display_name"
@@ -183,7 +185,7 @@
                   required
                 />
               </b-table-column>
-              <b-table-column label="Ticker" field="ticker" sortable>
+              <b-table-column label="Ticker" field="ticker" sortable searchable>
                 <b-input
                   v-model="props.row.ticker"
                   placeholder="Ticker"
@@ -236,11 +238,11 @@
             :data="supply"
           >
             <template slot-scope="props">
-              <b-table-column label="Denom" field="name" sortable>
+              <b-table-column label="Denom" field="name" sortable searchable>
                 {{ props.row.denom }}
               </b-table-column>
 
-              <b-table-column label="Amount" field="amount" sortable>
+              <b-table-column label="Amount" field="amount" sortable searchable>
                 {{ props.row.amount }}
               </b-table-column>
 
@@ -279,6 +281,13 @@
         native-type="submit"
         v-on:click="update()"
         >Save</b-button
+      >
+      <b-button
+        type="is-danger"
+        :loading="isLoading"
+        native-type="submit"
+        v-on:click="deleteChain()"
+        >DELET</b-button
       >
     </section>
   </div>
@@ -372,23 +381,19 @@ export default {
           "/chain/" + this.$route.params.id + "/supply"
         );
         this.supply = supply.data.supply;
+        console.log(supply)
+        while (supply.data.pagination.next_key != null) {
+          let supply = await api.get(
+            "/chain/" + this.$route.params.id + `/supply?pagination.key=${supply.data.pagination.next_key}`
+          );
+          this.supply.concat(supply.data.supply);
+        }
       } catch (e) {
         console.log(e);
       }
     },
     async update() {
-      this.chain.denoms.forEach((denom) => {
-        denom.gas_price_levels.low = denom.gas_price_levels.low
-          ? parseFloat(denom.gas_price_levels.low)
-          : 0.015;
-        denom.gas_price_levels.average = denom.gas_price_levels.average
-          ? parseFloat(denom.gas_price_levels.average)
-          : 0.022;
-        denom.gas_price_levels.high = denom.gas_price_levels.high
-          ? parseFloat(denom.gas_price_levels.high)
-          : 0.042;
-      });
-
+      let authToken = await this.$fire.auth.currentUser.getIdToken(true);
       let res = await axios.post("/add", this.chain, {
         headers: {
           "Content-Type": "application/json",
@@ -399,6 +404,23 @@ export default {
       } else {
         this.$nuxt.refresh();
       }
+    },
+    async deleteChain() {
+      let authToken = await this.$fire.auth.currentUser.getIdToken(true);
+      axios.delete("/delete", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${authToken}`,
+        },
+        data: {
+          chain: this.chain.chain_name
+        },
+      }).then(
+        (res) => {
+          setTimeout(() => {this.$router.push(`/chains`)}, 1000);
+          this.$router.push("/");
+        }
+      ).catch(console.log) 
     },
     setAddingToCNS(denom) {
       this.newDenom.name = denom;
@@ -422,11 +444,6 @@ export default {
     cancel() {
       this.newDenom = {
         denom: "",
-        gas_price_levels: {
-          low: 0.015,
-          average: 0.022,
-          high: 0.042,
-        },
       };
       this.isModalActive = false;
     },
