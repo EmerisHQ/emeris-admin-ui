@@ -393,10 +393,11 @@ export default {
       }
     },
     async update() {
-      let authToken = await this.$fire.auth.currentUser.getIdToken(true);
+      let token = this.$cookies.get("auth._token.google")
       let res = await axios.post("/add", this.chain, {
         headers: {
           "Content-Type": "application/json",
+          "Authorization": token
         },
       });
       if (res.status != 200) {
@@ -406,11 +407,11 @@ export default {
       }
     },
     async deleteChain() {
-      let authToken = await this.$fire.auth.currentUser.getIdToken(true);
+      let token = this.$cookies.get("auth._token.google")
       axios.delete("/delete", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `JWT ${authToken}`,
+          Authorization: token,
         },
         data: {
           chain: this.chain.chain_name

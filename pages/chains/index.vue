@@ -74,11 +74,13 @@ export default {
       let jsontxt = await this.file.text();
 
       let json = JSON.parse(jsontxt);
+      let token = this.$cookies.get("auth._token.google")
 
       axios
         .post("/add", json, {
           headers: {
             "Content-Type": "application/json",
+            "Authorization": token,
           },
         })
         .then(async (res) => {
