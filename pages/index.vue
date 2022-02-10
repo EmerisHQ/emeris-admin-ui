@@ -43,6 +43,8 @@ import Tiles from '@/components/Tiles'
 import CardWidget from '@/components/CardWidget'
 import CardComponent from '@/components/CardComponent'
 import ChainsTable from '@/components/ChainsTable'
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'Home',
   components: {
@@ -58,8 +60,13 @@ export default {
       return ['Admin', 'Dashboard']
     },
   },
+  methods: {
+    ...mapMutations([
+      'updateChains'
+    ])
+  },
   async mounted() {
-    await this.$store.updateChains()
+    await this.updateChains()
   },
   head() {
     return {

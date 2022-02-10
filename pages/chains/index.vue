@@ -38,6 +38,7 @@ import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
 import FilePicker from "@/components/FilePicker.vue";
+import { mapMutations } from 'vuex'
 
 export default {
   name: "Chains",
@@ -59,9 +60,12 @@ export default {
     },
   },
   async mounted() {
-    await this.$store.updateChains()
+    await this.updateChains()
   },
   methods: {
+    ...mapMutations([
+      'updateChains'
+    ]),
     async submit() {
       if (!this.file) {
         return;
