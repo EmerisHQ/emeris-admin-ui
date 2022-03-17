@@ -384,7 +384,7 @@ export default {
         console.log(supply)
         while (supply.data.pagination.next_key != null) {
           let supply = await api.get(
-            "/chain/" + this.$route.params.id + `/supply?pagination.key=${supply.data.pagination.next_key}`
+            `/chain/${this.$route.params.id}/supply?key=${supply.data.pagination.next_key}`
           );
           this.supply.concat(supply.data.supply);
         }
