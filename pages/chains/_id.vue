@@ -377,14 +377,16 @@ export default {
       try {
         let res = await axios.get("/chain/" + this.$route.params.id);
         this.chain = res.data.chain;
-        let supply = await api.get(
+        var supply = await api.get(
           "/chain/" + this.$route.params.id + "/supply"
         );
         this.supply = supply.data.supply;
         console.log(supply)
+        console.log(typeof supply)
+        console.log(supply.data.pagination.next_key)
         while (supply.data.pagination.next_key != null) {
-          let supply = await api.get(
-            "/chain/" + this.$route.params.id + `/supply?pagination.key=${supply.data.pagination.next_key}`
+          supply = await api.get(
+            `/chain/${this.$route.params.id}/supply?key=${supply.data.pagination.next_key}`
           );
           this.supply.concat(supply.data.supply);
         }
@@ -419,7 +421,6 @@ export default {
       }).then(
         (res) => {
           setTimeout(() => {this.$router.push(`/chains`)}, 1000);
-          this.$router.push("/");
         }
       ).catch(console.log) 
     },
