@@ -1,0 +1,72 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - staging
+
+env:
+  LOAD_BALANCER: emeris-websites
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set variables
+        id: setvars
+        run: |
+          if [[ "${{github.base_ref}}" == "main" || "${{github.ref}}" == "refs/heads/main" ]]; then
+            echo "::set-output name=gcs_bucket::admin-emeris-com"
+            echo "::set-output name=domain::admin.emeris.com"
+            echo "::set-output name=api_url::https://api.emeris.com/v1"
+          fi
+
+          if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
+            echo "::set-output name=gcs_bucket::admin-dev-emeris-com"
+            echo "::set-output name=domain::admin.dev.emeris.com"
+            echo "::set-output name=api_url::https://dev.demeris.io/v1"
+          fi
+
+          if [[ "${{github.base_ref}}" == "staging" || "${{github.ref}}" == "refs/heads/staging" ]]; then
+            echo "::set-output name=gcs_bucket::admin-staging-emeris-com"
+            echo "::set-output name=domain::admin.staging.emeris.com"
+            echo "::set-output name=api_url::https://staging.demeris.io/v1"
+          fi
+
+      - name: Authenticate with GCloud
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_SERVICE_ACCOUNT_B64 }}"
+
+      - name: Setup GCloud cli
+        uses: google-github-actions/setup-gcloud@v0
+
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: yarn
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Production
+        run: yarn generate:env
+        env:
+          API_URL: ${{ steps.setvars.outputs.api_url }}
+
+      - name: Deploy
+        run: gsutil -m rsync -d -R dist gs://${{ steps.setvars.outputs.gcs_bucket }}
+
+      - name: Invalidate Cache
+        run: gcloud compute url-maps invalidate-cdn-cache ${{ env.LOAD_BALANCER }} --host ${{ steps.setvars.outputs.domain }} --path "/*"
