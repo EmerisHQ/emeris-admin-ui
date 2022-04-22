@@ -1,5 +1,18 @@
 {
-  "projects": {
-    "default": "emeris-prod"
+  "projects": {},
+  "targets": {
+    "emeris-prod": {
+      "hosting": {
+        "emeris-admin": [
+          "emeris-admin"
+        ],
+        "emeris-admin-staging": [
+          "emeris-admin-staging"
+        ],
+        "emeris-admin-dev": [
+          "emeris-admin-dev"
+        ]
+      }
+    }
   }
 }

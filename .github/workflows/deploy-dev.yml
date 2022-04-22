@@ -6,7 +6,7 @@ on:
       - develop
 
 env:
-  API_URL: https://dev.demeris.io/v1
+  API_URL: https://api.dev.emeris.com/v1
 
 jobs:
   build_and_deploy:
@@ -39,6 +39,6 @@ jobs:
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_EMERIS_PROD }}"
-          channelId: dev
-          expires: 30d
+          target: emeris-admin-dev
+          channelId: live
           projectId: emeris-prod
