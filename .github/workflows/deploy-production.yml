@@ -39,5 +39,6 @@ jobs:
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_EMERIS_PROD }}"
+          target: emeris-admin
           channelId: live
           projectId: emeris-prod

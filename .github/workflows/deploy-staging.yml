@@ -6,7 +6,7 @@ on:
       - staging
 
 env:
-  API_URL: https://staging.demeris.io/v1
+  API_URL: https://api.staging.emeris.com/v1
 
 jobs:
   build_and_deploy:
@@ -39,6 +39,6 @@ jobs:
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_EMERIS_PROD }}"
-          channelId: staging
-          expires: 30d
+          target: emeris-admin-staging
+          channelId: live
           projectId: emeris-prod
