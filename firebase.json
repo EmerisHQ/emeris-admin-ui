@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "target": "emeris-admin",
+      "target": "prod",
       "public": "dist",
       "rewrites": [
         {
@@ -11,7 +11,7 @@
       ]
     },
     {
-      "target": "emeris-admin-dev",
+      "target": "staging",
       "public": "dist",
       "rewrites": [
         {
@@ -21,7 +21,7 @@
       ]
     },
     {
-      "target": "emeris-admin-staging",
+      "target": "dev",
       "public": "dist",
       "rewrites": [
         {
