@@ -1,16 +1,24 @@
 {
-  "projects": {},
+  "projects": {
+    "prod": "emeris-hq",
+    "dev": "emeris-dev",
+    "default": "emeris-hq"
+  },
   "targets": {
-    "emeris-prod": {
+    "emeris-hq": {
       "hosting": {
-        "emeris-admin": [
-          "emeris-admin"
+        "prod": [
+          "admin-emeris"
+        ]
+      }
+    },
+    "emeris-dev": {
+      "hosting": {
+        "dev": [
+          "admin-dev-emeris"
         ],
-        "emeris-admin-staging": [
-          "emeris-admin-staging"
-        ],
-        "emeris-admin-dev": [
-          "emeris-admin-dev"
+        "staging": [
+          "admin-staging-emeris"
         ]
       }
     }

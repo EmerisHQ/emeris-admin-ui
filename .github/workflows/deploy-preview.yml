@@ -33,7 +33,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_EMERIS_PROD }}"
-          target: emeris-admin-dev
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_EMERIS_DEV }}"
+          target: dev
           expires: 7d
-          projectId: emeris-prod
+          projectId: emeris-dev
